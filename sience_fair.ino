@@ -1,8 +1,11 @@
 #include <Wire.h>  //including libraries of I2C
+#include <NewPing.h> //ultra sonic sensor library
 
 
 int inputPin = A0;   // ultrasonic module   ECHO to A0
 int outputPin = A1;  // ultrasonic module  TRIG to A1
+NewPing sonar(outputPin, inputPin, 5);
+
 
 int servopin = 3;    //digital port pin 3, connecting to signal line of servo motor
 int pinLeft_1 = 2;   //Controls Directon of Left motor (A) ---- IN1 of motor driver board
@@ -19,7 +22,7 @@ int pulsewidth;     //defining variable of pulse width
 
 unsigned char Lpwm_val = 250;    //initialized left wheel speed at 250
 unsigned char Rpwm_val = 250;    //initialized right wheel speed at 250
-unsigned char Start_angle = 90;  //initialized angle of motor at 90°
+unsigned char Start_angle = 85;  //initialized angle of motor at 90°
 
 void M_Control_IO_config(void) {
   pinMode(pinLeft_1, OUTPUT);   // /pin 2
@@ -38,7 +41,6 @@ void Set_Speed(unsigned char Left, unsigned char Right)  //function of setting s
 
 void setup() {
   pinMode(servopin, OUTPUT);      //setting motor interface as output
-  Serial.begin(9600);             //initialized serial port , using Bluetooth as serial port, setting baud
   M_Control_IO_config();          //motor controlling the initialization of IO
   pinMode(inputPin, INPUT);       //starting receiving IR remote control signal
   pinMode(outputPin, OUTPUT);     //IO of ultrasonic module
@@ -48,6 +50,6 @@ void setup() {
 
 
 void loop() {
-
+  delay(2000);
   Self_control();
 }
